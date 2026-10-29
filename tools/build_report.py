@@ -3,6 +3,10 @@ from html import escape
 from pathlib import Path
 import re
 
+import reportlab
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_LEFT
 from reportlab.lib.pagesizes import A4
@@ -24,11 +28,16 @@ def inline(value):
 def main():
     source = ROOT / "reports" / "SECURITY_REVIEW.md"
     destination = source.with_suffix(".pdf")
+    # Embed ReportLab's bundled fonts for consistent rendering on other computers.
+    fonts = Path(reportlab.__file__).resolve().parent / "fonts"
+    for name, filename in (("LabSans", "Vera.ttf"), ("LabSans-Bold", "VeraBd.ttf"), ("LabSans-Italic", "VeraIt.ttf"), ("LabSans-BoldItalic", "VeraBI.ttf")):
+        pdfmetrics.registerFont(TTFont(name, str(fonts / filename)))
+    pdfmetrics.registerFontFamily("LabSans", normal="LabSans", bold="LabSans-Bold", italic="LabSans-Italic", boldItalic="LabSans-BoldItalic")
     styles = getSampleStyleSheet()
-    styles.add(ParagraphStyle(name="ReportBody", fontName="Helvetica", fontSize=9.3, leading=14.3, spaceAfter=9, textColor=colors.HexColor("#20382f")))
-    styles.add(ParagraphStyle(name="ReportTitle", fontName="Helvetica-Bold", fontSize=27, leading=33, textColor=colors.HexColor("#155b4c"), spaceAfter=22))
-    styles.add(ParagraphStyle(name="ReportH2", fontName="Helvetica-Bold", fontSize=16, leading=22, spaceBefore=14, spaceAfter=12, keepWithNext=True, textColor=colors.HexColor("#155b4c")))
-    styles.add(ParagraphStyle(name="ReportH3", fontName="Helvetica-Bold", fontSize=10.5, leading=15, spaceBefore=10, spaceAfter=7, keepWithNext=True))
+    styles.add(ParagraphStyle(name="ReportBody", fontName="LabSans", fontSize=9.3, leading=14.3, spaceAfter=9, textColor=colors.HexColor("#20382f")))
+    styles.add(ParagraphStyle(name="ReportTitle", fontName="LabSans-Bold", fontSize=27, leading=33, textColor=colors.HexColor("#155b4c"), spaceAfter=22))
+    styles.add(ParagraphStyle(name="ReportH2", fontName="LabSans-Bold", fontSize=16, leading=22, spaceBefore=14, spaceAfter=12, keepWithNext=True, textColor=colors.HexColor("#155b4c")))
+    styles.add(ParagraphStyle(name="ReportH3", fontName="LabSans-Bold", fontSize=10.5, leading=15, spaceBefore=10, spaceAfter=7, keepWithNext=True))
     styles.add(ParagraphStyle(name="ReportBullet", parent=styles["ReportBody"], leftIndent=12, firstLineIndent=-9))
     styles.add(ParagraphStyle(name="ReportCode", fontName="Courier", fontSize=7.5, leading=11, backColor=colors.HexColor("#f0f4ee"), borderPadding=8, spaceBefore=7, spaceAfter=14))
     styles.add(ParagraphStyle(name="ReportCell", parent=styles["ReportBody"], fontSize=8, leading=11, spaceAfter=0))
@@ -84,10 +93,10 @@ def main():
         canvas.saveState()
         canvas.setStrokeColor(colors.HexColor("#b8cebe"))
         canvas.line(20 * mm, 281 * mm, 190 * mm, 281 * mm)
-        canvas.setFont("Helvetica-Bold", 8)
+        canvas.setFont("LabSans-Bold", 8)
         canvas.setFillColor(colors.HexColor("#155b4c"))
         canvas.drawString(20 * mm, 285 * mm, "CODEALPHA / TASK 03")
-        canvas.setFont("Helvetica", 8)
+        canvas.setFont("LabSans", 8)
         canvas.drawRightString(190 * mm, 285 * mm, "SECURE CODING REVIEW")
         canvas.setFillColor(colors.HexColor("#607569"))
         canvas.drawString(20 * mm, 13 * mm, "Educational assessment | Fictional data | 29 October 2026")

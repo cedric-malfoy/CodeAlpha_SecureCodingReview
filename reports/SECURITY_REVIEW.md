@@ -31,6 +31,7 @@ The application provides registration, login/logout, and private note CRUD throu
 - Reviewed corrected source commit: `f3c2e3428d767a4f2c2ea98fbc5139b01ee3f426`.
 - The baseline application, templates, stylesheet, and runtime requirements are unchanged from the baseline commit. Shared plumbing gained only a documented scanner annotation for the published seed password.
 - Source hashes, tool versions, exact commands, UTC timestamp, and exit codes are recorded in [verification.json](evidence/verification.json). Later documentation commits do not change the reviewed application bytes.
+- The PDF formatter gained embedded fonts after evidence capture. That documentation-only tool update does not change the applications, tests, or recorded security results.
 - Reviewed: both application packages, shared database/authentication helpers, templates, runner configuration, and pinned Python dependencies. Tests and browser probes verify specific security properties.
 - Excluded: third-party services, real traffic, operating-system/container hardening, production hosting, an exhaustive dependency source review, and independent penetration testing.
 

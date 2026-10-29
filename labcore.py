@@ -8,7 +8,8 @@ import click
 from flask import abort, current_app, g, redirect, session, url_for
 
 ROOT = Path(__file__).resolve().parent
-DEMO_PASSWORD = "LabPassword!2026"  # Public fixture, never a real credential.
+DEMO_PASSWORD = "LabPassword!2026"  # nosec B105
+# Published fictional seed fixture, not an application secret; see report triage.
 
 
 def get_db():

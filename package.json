@@ -1,0 +1,9 @@
+{
+  "name": "codealpha-secure-coding-review",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Browser verification tooling for a Python secure coding review",
+  "scripts": { "test:browser": "node --test tests/browser.test.cjs" },
+  "devDependencies": { "playwright": "1.62.1" },
+  "engines": { "node": ">=22" }
+}

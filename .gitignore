@@ -9,3 +9,4 @@ instance/
 artifacts/
 .coverage
 htmlcov/
+node_modules/

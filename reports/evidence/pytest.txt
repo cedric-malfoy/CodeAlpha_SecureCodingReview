@@ -1,0 +1,71 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.2.0, pluggy-1.7.0 -- <project>/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: <project>
+configfile: pytest.ini
+testpaths: tests
+plugins: platformdirs-4.14.0
+collecting ... collected 58 items
+
+tests/test_findings.py::test_scr01_sql_injection_login[vulnerable] PASSED [  1%]
+tests/test_findings.py::test_scr01_sql_injection_login[secure] PASSED    [  3%]
+tests/test_findings.py::test_scr02_stored_xss[vulnerable] PASSED         [  5%]
+tests/test_findings.py::test_scr02_stored_xss[secure] PASSED             [  6%]
+tests/test_findings.py::test_scr03_cross_user_access[vulnerable-read] PASSED [  8%]
+tests/test_findings.py::test_scr03_cross_user_access[vulnerable-edit_form] PASSED [ 10%]
+tests/test_findings.py::test_scr03_cross_user_access[vulnerable-edit] PASSED [ 12%]
+tests/test_findings.py::test_scr03_cross_user_access[vulnerable-delete] PASSED [ 13%]
+tests/test_findings.py::test_scr03_cross_user_access[secure-read] PASSED [ 15%]
+tests/test_findings.py::test_scr03_cross_user_access[secure-edit_form] PASSED [ 17%]
+tests/test_findings.py::test_scr03_cross_user_access[secure-edit] PASSED [ 18%]
+tests/test_findings.py::test_scr03_cross_user_access[secure-delete] PASSED [ 20%]
+tests/test_findings.py::test_scr04_password_storage[vulnerable] PASSED   [ 22%]
+tests/test_findings.py::test_scr04_password_storage[secure] PASSED       [ 24%]
+tests/test_findings.py::test_scr05_missing_csrf[vulnerable-create] PASSED [ 25%]
+tests/test_findings.py::test_scr05_missing_csrf[vulnerable-edit] PASSED  [ 27%]
+tests/test_findings.py::test_scr05_missing_csrf[vulnerable-delete] PASSED [ 29%]
+tests/test_findings.py::test_scr05_missing_csrf[vulnerable-logout] PASSED [ 31%]
+tests/test_findings.py::test_scr05_missing_csrf[secure-create] PASSED    [ 32%]
+tests/test_findings.py::test_scr05_missing_csrf[secure-edit] PASSED      [ 34%]
+tests/test_findings.py::test_scr05_missing_csrf[secure-delete] PASSED    [ 36%]
+tests/test_findings.py::test_scr05_missing_csrf[secure-logout] PASSED    [ 37%]
+tests/test_findings.py::test_scr06_predictable_key_allows_session_forgery[vulnerable] PASSED [ 39%]
+tests/test_findings.py::test_scr06_predictable_key_allows_session_forgery[secure] PASSED [ 41%]
+tests/test_findings.py::test_scr06_session_cookie_flags[vulnerable] PASSED [ 43%]
+tests/test_findings.py::test_scr06_session_cookie_flags[secure] PASSED   [ 44%]
+tests/test_secure_app.py::test_complete_registration_and_note_lifecycle PASSED [ 46%]
+tests/test_secure_app.py::test_bad_credentials_and_quoted_username_are_handled PASSED [ 48%]
+tests/test_secure_app.py::test_registration_validation[values0] PASSED   [ 50%]
+tests/test_secure_app.py::test_registration_validation[values1] PASSED   [ 51%]
+tests/test_secure_app.py::test_registration_validation[values2] PASSED   [ 53%]
+tests/test_secure_app.py::test_registration_validation[values3] PASSED   [ 55%]
+tests/test_secure_app.py::test_registration_validation[values4] PASSED   [ 56%]
+tests/test_secure_app.py::test_duplicate_registration_preserves_existing_account PASSED [ 58%]
+tests/test_secure_app.py::test_note_validation[values0] PASSED           [ 60%]
+tests/test_secure_app.py::test_note_validation[values1] PASSED           [ 62%]
+tests/test_secure_app.py::test_note_validation[values2] PASSED           [ 63%]
+tests/test_secure_app.py::test_note_validation[values3] PASSED           [ 65%]
+tests/test_secure_app.py::test_anonymous_access_requires_login[/notes] PASSED [ 67%]
+tests/test_secure_app.py::test_anonymous_access_requires_login[/notes/1] PASSED [ 68%]
+tests/test_secure_app.py::test_anonymous_access_requires_login[/notes/1/edit] PASSED [ 70%]
+tests/test_secure_app.py::test_anonymous_access_requires_login[/notes/new] PASSED [ 72%]
+tests/test_secure_app.py::test_invalid_or_absent_identifiers[/notes/999] PASSED [ 74%]
+tests/test_secure_app.py::test_invalid_or_absent_identifiers[/notes/0] PASSED [ 75%]
+tests/test_secure_app.py::test_invalid_or_absent_identifiers[/notes/-1] PASSED [ 77%]
+tests/test_secure_app.py::test_invalid_or_absent_identifiers[/notes/not-an-id] PASSED [ 79%]
+tests/test_secure_app.py::test_invalid_or_absent_identifiers[/notes/999/edit] PASSED [ 81%]
+tests/test_secure_app.py::test_csrf_also_protects_authentication_forms[/login] PASSED [ 82%]
+tests/test_secure_app.py::test_csrf_also_protects_authentication_forms[/register] PASSED [ 84%]
+tests/test_secure_app.py::test_invalid_and_other_session_csrf_tokens PASSED [ 86%]
+tests/test_secure_app.py::test_successful_login_clears_pre_authentication_session PASSED [ 87%]
+tests/test_secure_app.py::test_missing_or_short_secret_fails_startup[None] PASSED [ 89%]
+tests/test_secure_app.py::test_missing_or_short_secret_fails_startup[] PASSED [ 91%]
+tests/test_secure_app.py::test_missing_or_short_secret_fails_startup[too-short] PASSED [ 93%]
+tests/test_secure_app.py::test_secret_can_be_supplied_through_environment PASSED [ 94%]
+tests/test_secure_app.py::test_security_headers_on_success_and_errors PASSED [ 96%]
+tests/test_secure_app.py::test_large_request_rejected PASSED             [ 98%]
+tests/test_secure_app.py::test_database_setup_is_repeatable_and_hashes_seed_passwords PASSED [100%]
+
+- generated xml file: <project>/reports/evidence/pytest.xml -
+============================= 58 passed in 15.18s ==============================
+

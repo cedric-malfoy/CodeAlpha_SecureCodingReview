@@ -1,0 +1,13 @@
+✔ vulnerable: verify stored-XSS behavior in a real browser (4794.30651ms)
+✔ secure: verify stored-XSS behavior in a real browser (2862.691403ms)
+✔ secure: registration, note lifecycle, and logout work in the browser (3837.978839ms)
+✔ secure: keyboard access and layouts fit 320, 390, 768, and 1440 pixels (5923.385093ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 18534.92977
+

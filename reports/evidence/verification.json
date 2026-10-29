@@ -1,0 +1,188 @@
+{
+  "generated_at_utc": "2026-10-29T08:26:28.152950+00:00",
+  "source_commit": "f3c2e3428d767a4f2c2ea98fbc5139b01ee3f426",
+  "python": "3.12.14",
+  "tools": {
+    "Flask": "3.1.3",
+    "Flask-WTF": "1.3.0",
+    "Werkzeug": "3.1.9",
+    "pytest": "9.2.0",
+    "bandit": "1.9.4",
+    "pip-audit": "2.10.1",
+    "reportlab": "5.1.0"
+  },
+  "source_sha256": {
+    "labcore.py": "c6a822c32ca8f6fb546ea112d1f597a354d70694f3621fba79d80e089e7cd72b",
+    "package-lock.json": "2c1ea016abdf5550ba8f04760bc26735afb657cd65e6e87d85df7030d33c690b",
+    "package.json": "db65a8d79fe22ed365edf14c9326bdbcbdc4df178efce8c68636f1375d11c351",
+    "pytest.ini": "8bc923bbae908322a8f4fe646e46ba276aabc00b5588a5c308afc456aa23578a",
+    "requirements-dev.txt": "86ac6dd436abab7fc78c7763726380ef88fedea96761fac51b757cbaab8b70ee",
+    "requirements.txt": "818eee577624e1a91536632310af440c5e06a9bc74712fa5cda7a8e59eaa549f",
+    "run.py": "d296fac041f83a56655047859ee4b49600bffe4d7497f93ec38e7019db6f9122",
+    "secure/__init__.py": "4f2d9e4219480f91cc7b01bdb381e2ea1e1ffd662814dc7c8820c8873420d0d7",
+    "secure/app.py": "6e0631995c0c4682db4d87562f84a56fa840a27727c7b7e2d9ac6a66727ddc79",
+    "static/app.css": "0fc2b851d1ab56e354d30aa7b0f81132617d24af19ca67a6549586c5cc182422",
+    "templates/auth.html": "050a6dce78e593f417d421b737050c01815357fc0c2903a9690608faeb20c7b0",
+    "templates/base.html": "e0ab2af7f15cd59f20985123e825185f82b90520ee767d88214469d5e9745463",
+    "templates/edit.html": "fad98c989db336fb16086394baaa98996890d8748e7b598539844c006bb75113",
+    "templates/note.html": "81bc7dd58d5fb7edb0f6e62cffc0bf2a6efc384bc6a5d4bcf01c8e2ae7e3d436",
+    "templates/notes.html": "e12437ab01837c507a3c108e9cc70a1ba7d3cb2ade3ceec933f7a8b83d975df7",
+    "tests/browser.test.cjs": "b2feb11e4ca74a82f990166df75c64760c29412e689f4cdf7fa638d699a5756e",
+    "tests/conftest.py": "42d2f3c11ca68498c947bdb57d5cee8eac341cec3a480973e5e8e4ae8a7b75f2",
+    "tests/test_findings.py": "5dd6de60b36f2d3b62e6a3107bf21a9edda7be66571e98671793d34bc2437cf4",
+    "tests/test_secure_app.py": "ff354da4afa7596b53518f77a1c775036b2a59d2664d0a379a959d610f09246d",
+    "tools/browser_fixture.py": "fac94a46d97c7a3e20de9a7cecc35a2c70135f04ac46bbf7e2599ec73b4d6ee4",
+    "tools/build_report.py": "73ad1e86d7fc5e6cbb61bad12329545d85ca079de5321ef776a10f6d15f97a18",
+    "tools/run_review.py": "5baf5be0b8fc9efb7b12c9f2b3cd1c4f088662709527d7fcb727905367821b5a",
+    "vulnerable/__init__.py": "7917b23f312533765dba6f8fbf323f00cf108fed3895aa468704a52bcb029eab",
+    "vulnerable/app.py": "32c25ea673e20425787ea3f8390dd5431ca93ab45603b14e44c8b3811ec51477"
+  },
+  "checks": [
+    {
+      "check": "pytest",
+      "command": [
+        "python",
+        "-m",
+        "pytest",
+        "-v",
+        "--tb=short",
+        "--junitxml=<project>/reports/evidence/pytest.xml"
+      ],
+      "exit_code": 0,
+      "expected_exit_codes": [
+        0
+      ],
+      "passed": true
+    },
+    {
+      "check": "baseline-bandit",
+      "command": [
+        "python",
+        "-m",
+        "bandit",
+        "--ignore-nosec",
+        "-r",
+        "vulnerable",
+        "labcore.py",
+        "-f",
+        "json",
+        "-o",
+        "<project>/reports/evidence/baseline-bandit.json"
+      ],
+      "exit_code": 1,
+      "expected_exit_codes": [
+        1
+      ],
+      "passed": true
+    },
+    {
+      "check": "secure-bandit-raw",
+      "command": [
+        "python",
+        "-m",
+        "bandit",
+        "--ignore-nosec",
+        "-r",
+        "secure",
+        "labcore.py",
+        "run.py",
+        "-f",
+        "json",
+        "-o",
+        "<project>/reports/evidence/secure-bandit-raw.json"
+      ],
+      "exit_code": 1,
+      "expected_exit_codes": [
+        1
+      ],
+      "passed": true
+    },
+    {
+      "check": "secure-bandit",
+      "command": [
+        "python",
+        "-m",
+        "bandit",
+        "-r",
+        "secure",
+        "labcore.py",
+        "run.py",
+        "-f",
+        "json",
+        "-o",
+        "<project>/reports/evidence/secure-bandit.json"
+      ],
+      "exit_code": 0,
+      "expected_exit_codes": [
+        0
+      ],
+      "passed": true
+    },
+    {
+      "check": "runtime-dependencies",
+      "command": [
+        "python",
+        "-m",
+        "pip_audit",
+        "-r",
+        "requirements.txt",
+        "--no-deps",
+        "--disable-pip",
+        "--strict",
+        "--cache-dir",
+        "<project>/artifacts/pip-audit-cache",
+        "--progress-spinner",
+        "off",
+        "-f",
+        "json",
+        "-o",
+        "<project>/reports/evidence/runtime-dependencies.json"
+      ],
+      "exit_code": 0,
+      "expected_exit_codes": [
+        0
+      ],
+      "passed": true
+    },
+    {
+      "check": "development-dependencies",
+      "command": [
+        "python",
+        "-m",
+        "pip_audit",
+        "-r",
+        "requirements-dev.txt",
+        "--no-deps",
+        "--disable-pip",
+        "--strict",
+        "--cache-dir",
+        "<project>/artifacts/pip-audit-cache",
+        "--progress-spinner",
+        "off",
+        "-f",
+        "json",
+        "-o",
+        "<project>/reports/evidence/development-dependencies.json"
+      ],
+      "exit_code": 0,
+      "expected_exit_codes": [
+        0
+      ],
+      "passed": true
+    },
+    {
+      "check": "browser",
+      "command": [
+        "node",
+        "--test",
+        "tests/browser.test.cjs"
+      ],
+      "exit_code": 0,
+      "expected_exit_codes": [
+        0
+      ],
+      "passed": true
+    }
+  ],
+  "note": "Baseline warnings are expected. Raw secure scan retains the public fixture warning; the narrowly triaged secure scan must pass. Exit success is not a claim of exhaustive security."
+}

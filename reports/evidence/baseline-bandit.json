@@ -1,0 +1,148 @@
+{
+  "errors": [],
+  "generated_at": "2026-10-29T08:26:01Z",
+  "metrics": {
+    "./labcore.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 1,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 1,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 82,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "_totals": {
+      "CONFIDENCE.HIGH": 1,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 3,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 2,
+      "SEVERITY.MEDIUM": 2,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 172,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "vulnerable/__init__.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 1,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "vulnerable/app.py": {
+      "CONFIDENCE.HIGH": 1,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 2,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 1,
+      "SEVERITY.MEDIUM": 2,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 89,
+      "nosec": 0,
+      "skipped_tests": 0
+    }
+  },
+  "results": [
+    {
+      "code": "10 ROOT = Path(__file__).resolve().parent\n11 DEMO_PASSWORD = \"LabPassword!2026\"  # nosec B105\n12 # Published fictional seed fixture, not an application secret; see report triage.\n",
+      "col_offset": 16,
+      "end_col_offset": 34,
+      "filename": "./labcore.py",
+      "issue_confidence": "MEDIUM",
+      "issue_cwe": {
+        "id": 259,
+        "link": "https://cwe.mitre.org/data/definitions/259.html"
+      },
+      "issue_severity": "LOW",
+      "issue_text": "Possible hardcoded password: 'LabPassword!2026'",
+      "line_number": 11,
+      "line_range": [
+        11
+      ],
+      "more_info": "https://bandit.readthedocs.io/en/1.9.4/plugins/b105_hardcoded_password_string.html",
+      "test_id": "B105",
+      "test_name": "hardcoded_password_string"
+    },
+    {
+      "code": "12     app.config.update(\n13         SECRET_KEY=\"public-training-key-do-not-use\",  # SCR-06: deliberately predictable.\n14         DEBUG=True,  # SCR-06: deliberately unsafe debug configuration.\n15         DATABASE=str(ROOT / \"instance\" / \"vulnerable\" / \"notes.sqlite3\"),\n16         SESSION_COOKIE_NAME=\"vulnerable_session\",\n17         SESSION_COOKIE_HTTPONLY=False,\n18         SESSION_COOKIE_SAMESITE=None,\n19         MAX_CONTENT_LENGTH=64 * 1024,\n20     )\n21     if test_config:\n22         app.config.update(test_config)\n",
+      "col_offset": 4,
+      "end_col_offset": 5,
+      "filename": "vulnerable/app.py",
+      "issue_confidence": "MEDIUM",
+      "issue_cwe": {
+        "id": 259,
+        "link": "https://cwe.mitre.org/data/definitions/259.html"
+      },
+      "issue_severity": "LOW",
+      "issue_text": "Possible hardcoded password: 'public-training-key-do-not-use'",
+      "line_number": 13,
+      "line_range": [
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "more_info": "https://bandit.readthedocs.io/en/1.9.4/plugins/b106_hardcoded_password_funcarg.html",
+      "test_id": "B106",
+      "test_name": "hardcoded_password_funcarg"
+    },
+    {
+      "code": "46             # SCR-01: deliberately interpolates untrusted input into SQL.\n47             user = get_db().execute(f\"SELECT id FROM users WHERE username = '{username}' AND password = '{password}'\").fetchone()\n48             if not user:\n",
+      "col_offset": 38,
+      "end_col_offset": 77,
+      "filename": "vulnerable/app.py",
+      "issue_confidence": "MEDIUM",
+      "issue_cwe": {
+        "id": 89,
+        "link": "https://cwe.mitre.org/data/definitions/89.html"
+      },
+      "issue_severity": "MEDIUM",
+      "issue_text": "Possible SQL injection vector through string-based query construction.",
+      "line_number": 47,
+      "line_range": [
+        47
+      ],
+      "more_info": "https://bandit.readthedocs.io/en/1.9.4/plugins/b608_hardcoded_sql_expressions.html",
+      "test_id": "B608",
+      "test_name": "hardcoded_sql_expressions"
+    },
+    {
+      "code": "86         # SCR-02: deliberately trusts stored user text as HTML.\n87         return render_template(\"note.html\", note=note, note_content=Markup(note[\"body\"]))\n88 \n",
+      "col_offset": 68,
+      "end_col_offset": 88,
+      "filename": "vulnerable/app.py",
+      "issue_confidence": "HIGH",
+      "issue_cwe": {
+        "id": 79,
+        "link": "https://cwe.mitre.org/data/definitions/79.html"
+      },
+      "issue_severity": "MEDIUM",
+      "issue_text": "Potential XSS with ``markupsafe.Markup`` detected. Do not use ``Markup`` on untrusted data.",
+      "line_number": 87,
+      "line_range": [
+        87
+      ],
+      "more_info": "https://bandit.readthedocs.io/en/1.9.4/plugins/b704_markupsafe_markup_xss.html",
+      "test_id": "B704",
+      "test_name": "markupsafe_markup_xss"
+    }
+  ]
+}

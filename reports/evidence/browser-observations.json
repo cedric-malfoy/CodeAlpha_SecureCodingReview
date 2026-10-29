@@ -1,0 +1,35 @@
+[
+  {
+    "check": "stored-xss",
+    "mode": "vulnerable",
+    "script_executed": true,
+    "cross_user_edit_status": 200,
+    "viewed_by": "bob",
+    "planted_by": "alice",
+    "expected_result_verified": true
+  },
+  {
+    "check": "stored-xss",
+    "mode": "secure",
+    "script_executed": false,
+    "cross_user_edit_status": 404,
+    "viewed_by": "alice",
+    "planted_by": "alice",
+    "expected_result_verified": true
+  },
+  {
+    "check": "secure-browser-lifecycle",
+    "passed": true,
+    "script_errors": 0
+  },
+  {
+    "check": "responsive-and-keyboard",
+    "widths": [
+      320,
+      390,
+      768,
+      1440
+    ],
+    "passed": true
+  }
+]

@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block title %}Your notes{% endblock %}
+{% block content %}
+<div class="page-heading"><div><p class="eyebrow">YOUR WORKSPACE</p><h1>A little room to think.</h1><p>Ideas, drafts, and the details you want to remember.</p></div><a class="button" href="{{ url_for('new_note') }}">+ New note</a></div>
+<div class="note-grid">{% for note in notes %}<a class="panel note-card" href="{{ url_for('view_note', note_id=note['id']) }}"><span class="eyebrow">NOTE {{ '%02d'|format(loop.index) }}</span><h2>{{ note['title'] }}</h2><span class="open-note">Open note →</span></a>{% else %}<section class="panel empty"><h2>A fresh page awaits.</h2><p>Create your first note to get started.</p></section>{% endfor %}</div>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}{{ 'Edit note' if note else 'New note' }}{% endblock %}
+{% block content %}
+<a class="back" href="{{ url_for('notes') }}">← All notes</a><div class="page-heading"><div><p class="eyebrow">MAKE SPACE FOR AN IDEA</p><h1>{{ 'Refine your note.' if note else 'Start with a thought.' }}</h1></div></div>
+<form class="panel editor" method="post">{% if csrf_token is defined %}<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">{% endif %}
+<label for="title">Title</label><input id="title" name="title" maxlength="120" required value="{{ note['title'] if note else '' }}">
+<label for="body">Your note</label><textarea id="body" name="body" maxlength="10000" rows="9" required>{{ note['body'] if note else '' }}</textarea><p class="hint">Plain text · up to 10,000 characters</p>
+<div class="actions"><button class="button">Save note</button><a href="{{ url_for('notes') }}">Cancel</a></div></form>
+{% endblock %}

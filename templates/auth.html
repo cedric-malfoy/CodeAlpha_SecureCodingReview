@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}{{ 'Register' if registering else 'Sign in' }}{% endblock %}
+{% block content %}
+<div class="auth-grid"><section class="intro"><p class="eyebrow">A SMALL APP. A CLOSER LOOK.</p><h1>Your ideas,<br>in a private place.</h1><p class="lede">A simple notes app for learning how secure code protects everyday information.</p><div class="callout"><strong>One app. Two implementations.</strong><p>Compare the training baseline with the corrected version. The audit explains the decisions behind each fix.</p></div></section>
+<section class="panel auth-panel"><p class="eyebrow">GET STARTED</p><h2>{{ 'Create your account' if registering else 'Welcome back' }}</h2><p>{{ 'Use fictional details for this local lab.' if registering else 'Sign in to your local notes workspace.' }}</p>
+{% if error %}<p class="error" role="alert">{{ error }}</p>{% endif %}
+<form method="post">{% if csrf_token is defined %}<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">{% endif %}
+<label for="username">Username</label><input id="username" name="username" required maxlength="30" autocomplete="username" {% if registering %}pattern="[a-zA-Z0-9_]{3,30}" minlength="3"{% endif %}>
+<label for="password">Password</label><input id="password" name="password" type="password" required maxlength="128" {% if registering %}minlength="12" autocomplete="new-password"{% else %}autocomplete="current-password"{% endif %}>
+{% if registering %}<p class="hint">12–128 characters. Usernames use 3–30 letters, numbers, or underscores.</p>{% endif %}
+<button class="button full">{{ 'Create account' if registering else 'Sign in' }}</button></form>
+<p class="auth-switch">{{ 'Already registered?' if registering else 'New to the lab?' }} <a href="{{ url_for('login' if registering else 'register') }}">{{ 'Sign in' if registering else 'Create an account' }}</a></p>
+</section></div>
+{% endblock %}

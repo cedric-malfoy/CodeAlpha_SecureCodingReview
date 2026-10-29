@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{% block title %}Private Notes{% endblock %} · Secure Coding Lab</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='app.css') }}">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="mode {{ lab_mode }}">{{ 'INTENTIONALLY VULNERABLE BASELINE · LOCAL TRAINING ONLY' if lab_mode == 'vulnerable' else 'CORRECTED VERSION · SECURE CODING REVIEW' }}</div>
+  <header class="shell"><a class="brand" href="{{ url_for('home') }}"><span class="brand-icon">N</span> Private Notes <small>CODE REVIEW LAB</small></a>
+    {% if current_user %}<nav aria-label="Account"><span>{{ current_user['username'] }}</span><form method="post" action="{{ url_for('logout') }}">{% if csrf_token is defined %}<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">{% endif %}<button class="text-button">Sign out</button></form></nav>{% endif %}
+  </header>
+  <main class="shell" id="main">{% block content %}{% endblock %}</main>
+  <footer class="shell">CodeAlpha · Task 3 / Secure Coding Review <span>Fictional data. Local demonstration.</span></footer>
+</body>
+</html>

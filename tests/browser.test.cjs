@@ -46,9 +46,9 @@ async function newPage(t, width = 1440) {
   return context.newPage();
 }
 
-async function signIn(page, mode) {
+async function signIn(page, mode, username = 'alice') {
   await page.goto(urls[mode] + '/login');
-  await page.getByLabel('Username', { exact: true }).fill('alice');
+  await page.getByLabel('Username', { exact: true }).fill(username);
   await page.getByLabel('Password', { exact: true }).fill('LabPassword!2026');
   await page.getByRole('button', { name: 'Sign in', exact: true }).click();
   await page.waitForURL('**/notes');
@@ -58,15 +58,24 @@ for (const mode of ['vulnerable', 'secure']) {
   test(`${mode}: verify stored-XSS behavior in a real browser`, async t => {
     const page = await newPage(t);
     await signIn(page, mode);
-    await page.getByRole('link', { name: '+ New note', exact: true }).click();
-    await page.getByLabel('Title', { exact: true }).fill('Local XSS evidence');
+    const otherUserEdit = await page.goto(urls[mode] + '/notes/2/edit');
+    assert.equal(otherUserEdit.status(), mode === 'vulnerable' ? 200 : 404);
+    if (mode === 'secure') {
+      await page.goto(urls.secure + '/notes/new');
+      await page.getByLabel('Title', { exact: true }).fill('Local XSS evidence');
+    }
     await page.getByLabel('Your note', { exact: true }).fill(payload);
     await page.getByRole('button', { name: 'Save note', exact: true }).click();
+    if (mode === 'vulnerable') {
+      await page.getByRole('button', { name: 'Sign out', exact: true }).click();
+      await signIn(page, mode, 'bob');
+      await page.goto(urls.vulnerable + '/notes/2');
+    }
     await page.locator('.note-body').waitFor();
     const executed = await page.evaluate(() => window.__xssProbe === 'executed');
     assert.equal(executed, mode === 'vulnerable');
     if (mode === 'secure') assert.equal(await page.locator('.note-body').innerText(), payload);
-    observations.push({ check: 'stored-xss', mode, script_executed: executed, expected_result_verified: true });
+    observations.push({ check: 'stored-xss', mode, script_executed: executed, cross_user_edit_status: otherUserEdit.status(), viewed_by: mode === 'vulnerable' ? 'bob' : 'alice', planted_by: 'alice', expected_result_verified: true });
   });
 }
 

@@ -18,6 +18,8 @@ def main():
     args = parser.parse_args()
     out = args.output.resolve()
     out.mkdir(parents=True, exist_ok=True)
+    audit_cache = ROOT / "artifacts" / "pip-audit-cache"
+    audit_cache.mkdir(parents=True, exist_ok=True)
     commit = subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT, check=True, capture_output=True, text=True).stdout.strip()
     # These bytes identify what was actually checked, even if the working tree is edited.
     relevant = [ROOT / name for name in ("labcore.py", "run.py", "requirements.txt", "requirements-dev.txt", "package.json", "package-lock.json", "pytest.ini")]
@@ -29,8 +31,8 @@ def main():
         ("baseline-bandit", [sys.executable, "-m", "bandit", "--ignore-nosec", "-r", "vulnerable", "labcore.py", "-f", "json", "-o", str(out / "baseline-bandit.json")], (1,)),
         ("secure-bandit-raw", [sys.executable, "-m", "bandit", "--ignore-nosec", "-r", "secure", "labcore.py", "run.py", "-f", "json", "-o", str(out / "secure-bandit-raw.json")], (1,)),
         ("secure-bandit", [sys.executable, "-m", "bandit", "-r", "secure", "labcore.py", "run.py", "-f", "json", "-o", str(out / "secure-bandit.json")], (0,)),
-        ("runtime-dependencies", [sys.executable, "-m", "pip_audit", "-r", "requirements.txt", "--no-deps", "--disable-pip", "--strict", "--progress-spinner", "off", "-f", "json", "-o", str(out / "runtime-dependencies.json")], (0,)),
-        ("development-dependencies", [sys.executable, "-m", "pip_audit", "-r", "requirements-dev.txt", "--no-deps", "--disable-pip", "--strict", "--progress-spinner", "off", "-f", "json", "-o", str(out / "development-dependencies.json")], (0,)),
+        ("runtime-dependencies", [sys.executable, "-m", "pip_audit", "-r", "requirements.txt", "--no-deps", "--disable-pip", "--strict", "--cache-dir", str(audit_cache), "--progress-spinner", "off", "-f", "json", "-o", str(out / "runtime-dependencies.json")], (0,)),
+        ("development-dependencies", [sys.executable, "-m", "pip_audit", "-r", "requirements-dev.txt", "--no-deps", "--disable-pip", "--strict", "--cache-dir", str(audit_cache), "--progress-spinner", "off", "-f", "json", "-o", str(out / "development-dependencies.json")], (0,)),
         ("browser", ["node", "--test", "tests/browser.test.cjs"], (0,)),
     ]
     results = []
